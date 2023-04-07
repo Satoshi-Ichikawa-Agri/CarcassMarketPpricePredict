@@ -7,9 +7,8 @@
 from views.web_scraping import get_excel, file_move
 from views.data_cleansing import data_cleansing_process
 
-
 if __name__ == '__main__':
-    get_excel()
+    # get_excel()
     # file_move()
-    # data_cleansing_process()
+    data_cleansing_process()
     

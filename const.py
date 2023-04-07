@@ -18,19 +18,19 @@ class Const(object):
     
     DELIMITER = '/'
     TRANCE_DATE = {
-        "年": DELIMITER,
-        "月": DELIMITER,
-        "日": DELIMITER,
-        ".": DELIMITER,
-        "-": DELIMITER,
+        '年': DELIMITER,
+        '月': DELIMITER,
+        '日': DELIMITER,
+        '.': DELIMITER,
+        '-': DELIMITER,
     }
 
     # Market Region
-    TOKYO = "東京"
-    SAITAMA = "さいたま"
-    YOKOHAMA = "横浜"
-    OSAKA = "大阪"
-    ZENNO = "全農建値"
+    TOKYO = '東京'
+    SAITAMA = 'さいたま'
+    YOKOHAMA = '横浜'
+    OSAKA = '大阪'
+    ZENNO = '全農建値'
 
 
     @classmethod
