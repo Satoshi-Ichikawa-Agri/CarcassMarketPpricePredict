@@ -1,12 +1,15 @@
 """ 定数やfunctionの管理
 """
 import os
+import time
 from datetime import date, datetime
 
 
 class Const(object):
     """ 定数とfunction
     """
+    
+    ZENNO_URL = 'https://www.jazmf.co.jp/market/list.html'
     
     WORKSPACE_DIR = os.getcwd() # workspaceのdirectory_path
     
@@ -34,10 +37,44 @@ class Const(object):
 
 
     @classmethod
+    def get_target_date(cls, arg_list):
+        """ Consoleの引数からtarget_dateを取得する
+        python main.py 202303
+        """
+        if len(arg_list) == 1:
+            target_date = None
+        else:
+            target_date = arg_list[1]
+        
+        return target_date
+
+
+    @classmethod
+    def is_null_or_empty(cls, value):
+        """指定値がNoneもしくは空でないかをチェックする
+        """
+        if value is None:
+            return True
+        if len(value) == 0:
+            return True
+        
+        return False
+
+
+    @classmethod
     def date_replace(cls, value: str):
         """ 日付のReplace
         Parameters:
             value: ダウンロードA列の「日」の値(例01日,02日)
         """
         value_trance = int(value.replace('日', '')) # 1~31
+        
         return value_trance
+
+
+    @classmethod
+    def time_keeper(cls, seconds: int):
+        """ Time Keeper
+        """
+        time.sleep(seconds)
+

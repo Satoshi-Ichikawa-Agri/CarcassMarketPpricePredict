@@ -12,17 +12,6 @@ ws_original = wb_original['豚肉相場一覧表_202302']
 ws_summary = wb_summary['Sheet1']
 
 
-def is_null_or_empty(value):
-    """指定値がNoneもしくは空でないかをチェックする
-    """
-    if value is None:
-        return True
-    if len(value) == 0:
-        return True
-    
-    return False
-
-
 def get_value(column, row):
     """ 対象セルの値を取得する
     """
@@ -31,7 +20,7 @@ def get_value(column, row):
         return ""
     value = str(ws_original.cell(row=row, column=column).value)
     
-    if is_null_or_empty(value):
+    if Const.is_null_or_empty(value):
         return ""
     
     return value
@@ -69,7 +58,7 @@ def data_cleansing_process():
     for row in range(1, 30):
         market_date = get_market_date(row)
         
-        if is_null_or_empty(market_date):
+        if Const.is_null_or_empty(market_date):
             continue
         
         if '豚肉相場' in market_date:
