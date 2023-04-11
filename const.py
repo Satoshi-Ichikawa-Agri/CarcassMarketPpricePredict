@@ -18,7 +18,8 @@ class Const(object):
     STRING_EMPTY = '' # str型valueのunset
 
     DATE_NOW = datetime.now().strftime('%Y/%m/%d_%H:%M:%S') # 本日日時
-    DATE_TODAY = date.today().strftime('%Y/%m/%d') # 本日日付
+    DATE_TODAY = date.today().strftime('%Y/%m/%d') # 本日日付('2023/04/12')
+    DATE_YEAR_AND_MONTH = date.today().strftime('%Y%m') # 当月('202304')
     
     DELIMITER = '/'
     TRANCE_DATE = {

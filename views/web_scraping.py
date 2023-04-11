@@ -8,26 +8,34 @@ from const import Const
 
 
 class WebScraping(object):
+    """ Web Scraping
     """
-    """
-    def __init__(self, target_date=None):
+    def __init__(self, target_date):
         self.target_date = target_date
 
 
     def processing(self):
         """ Auto Download
         """
-        if self.target_date is None:
-            self.__get_excel()
-        else:
-            self.__get_excel_specify()
+        file_date = Const.INT_UNSET
+        try:
+            if self.target_date is None:
+                file_date = self.__get_excel()
+            else:
+                file_date = self.__get_excel_specify()
+        except:
+            print('例外が発生しました。')
+            return
+        finally:
+            self.__file_move(file_date)
+            print('コピーしました。')
 
 
-    def file_move(self):
+    def __file_move(self, file_date):
         """ ダウンロードファイルをワークフォルダにコピーする
         """
         download_dir = Const.DOWNLOAD_DIR
-        download_file = '豚肉相場一覧表_202302.xlsx'
+        download_file = f'豚肉相場一覧表_{ file_date }.xlsx'
         carcass_file = os.path.join(download_dir, download_file)
         shutil.copy2(carcass_file, os.path.join(Const.WORKSPACE_DIR, 'download/'))
 
@@ -37,12 +45,10 @@ class WebScraping(object):
         当月から見て、前月の枝肉市場結果を取得する。
         """
         driver = webdriver.Chrome()
-        # 対象URLに接続
         driver.get(Const.ZENNO_URL)
         Const.time_keeper(5)
         
-        # 本日日付を取得する
-        today = date.today() # →datetime.date(2023, 3, 17)
+        today = date.today() # 本日日付を取得する →datetime.date(2023, 3, 17)
         
         # class属性からターゲット要素を絞り込む
         if today.month == 4:
@@ -52,9 +58,7 @@ class WebScraping(object):
             target_elem = driver.find_element(By.CLASS_NAME, 'thisYear')
 
         months = target_elem.text.split('\n') # →['4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月', '1月', '2月', '3月']
-        
-        # 本日から見て前月の”月”を取得する
-        previous_month = str(today.month - 1) + "月" # →'M月'
+        previous_month = str(today.month - 1) + '月' # 本日から見て前月の”月”を取得する →'M月'
         
         # monthsからターゲット月を取得する
         get_month = ''
@@ -68,7 +72,6 @@ class WebScraping(object):
         target_link = driver.find_element(By.LINK_TEXT, get_month)
         Const.time_keeper(2)
         driver.execute_script('arguments[0].click();', target_link)
-        # target_link.click()
         Const.time_keeper(5)
         
         # ブラウザのタブを切り替える(ページタブを切り替える)
@@ -80,8 +83,12 @@ class WebScraping(object):
         
         Const.time_keeper(10)
         driver.close()
+        print('Excelを取得しました。')
         
-        return int(get_month)
+        # return用で前月を取得する
+        previous_month_return = int(Const.DATE_YEAR_AND_MONTH) -1 # yyyymm-1
+        
+        return previous_month_return
     
     
     def __get_excel_specify(self):
@@ -89,7 +96,6 @@ class WebScraping(object):
         引数の月の枝肉市場結果を取得する。
         """
         driver = webdriver.Chrome()
-        # 対象URLに接続
         driver.get(Const.ZENNO_URL)
         Const.time_keeper(5)
         
@@ -137,5 +143,6 @@ class WebScraping(object):
         
         Const.time_keeper(10)
         driver.close()
+        print('Excelを取得しました。')
         
-        return int(get_month)
+        return int(self.target_date)

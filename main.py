@@ -15,18 +15,16 @@ def execute():
     """ 実行
     """
     # コマンドライン引数を取得する
-    # arg_list = sys.argv
+    arg_list = sys.argv
     
     # web_scraping = WebScraping(Const.get_target_date(arg_list))
     # web_scraping.processing()
     
-    web_scraping = WebScraping()
-    web_scraping.file_move()
-    
-    # data_cleansing = DataCleansing()
-    # data_cleansing.data_cleansing_process()
+    data_cleansing = DataCleansing()
+    data_cleansing.data_cleansing_process()
 
 
 if __name__ == '__main__':
     execute()
+    print('処理が終了しました。')
 
