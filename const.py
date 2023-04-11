@@ -14,7 +14,7 @@ class Const(object):
     WORKSPACE_DIR = os.getcwd() # workspaceのdirectory_path
     
     INT_UNSET = -1 # int型valueのunset
-    STRING_EMPTY = "" # str型valueのunset
+    STRING_EMPTY = '' # str型valueのunset
 
     DATE_NOW = datetime.now().strftime('%Y/%m/%d_%H:%M:%S') # 本日日時
     DATE_TODAY = date.today().strftime('%Y/%m/%d') # 本日日付

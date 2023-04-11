@@ -58,11 +58,11 @@ def data_cleansing_process():
     for row in range(1, 30):
         market_date = get_market_date(row)
         
-        if Const.is_null_or_empty(market_date):
-            continue
-        
         if '豚肉相場' in market_date:
             market_date = remove_value(market_date, 8, 50)
+        
+        if market_date == 'None':
+            continue
         
         model = CarcassMarketPrice()
         model.market_date = market_date
