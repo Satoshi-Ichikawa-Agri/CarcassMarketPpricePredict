@@ -10,7 +10,7 @@ from const import Const
 class WebScraping(object):
     """
     """
-    def __init__(self, target_date):
+    def __init__(self, target_date=None):
         self.target_date = target_date
 
 
@@ -26,14 +26,15 @@ class WebScraping(object):
     def file_move(self):
         """ ダウンロードファイルをワークフォルダにコピーする
         """
-        download_dir = 'C:/Users/daiko/Downloads'
-        file = '豚肉相場一覧表_202302.xlsx'
-        download_file = os.path.join(download_dir, file)
-        shutil.copy2(download_file, "download/")
+        download_dir = Const.DOWNLOAD_DIR
+        download_file = '豚肉相場一覧表_202302.xlsx'
+        carcass_file = os.path.join(download_dir, download_file)
+        shutil.copy2(carcass_file, os.path.join(Const.WORKSPACE_DIR, 'download/'))
 
 
     def __get_excel(self):
-        """
+        """ 引数指定をしない場合の処理
+        当月から見て、前月の枝肉市場結果を取得する。
         """
         driver = webdriver.Chrome()
         # 対象URLに接続
@@ -84,7 +85,8 @@ class WebScraping(object):
     
     
     def __get_excel_specify(self):
-        """
+        """ 引数指定をする場合の処理
+        引数の月の枝肉市場結果を取得する。
         """
         driver = webdriver.Chrome()
         # 対象URLに接続

@@ -10,6 +10,7 @@ class Const(object):
     """
     
     ZENNO_URL = 'https://www.jazmf.co.jp/market/list.html'
+    DOWNLOAD_DIR = 'C:/Users/daiko/Downloads'
     
     WORKSPACE_DIR = os.getcwd() # workspaceのdirectory_path
     
@@ -53,7 +54,7 @@ class Const(object):
     def is_null_or_empty(cls, value):
         """指定値がNoneもしくは空でないかをチェックする
         """
-        if value is None:
+        if value is None or value == 'None':
             return True
         if len(value) == 0:
             return True

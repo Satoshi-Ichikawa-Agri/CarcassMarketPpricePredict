@@ -9,7 +9,7 @@ class CarcassMarketPrice(object):
     
     def __init__(self):
         
-        self.index = Const.INT_UNSET
+        self.index = Const.INT_UNSET # for文のindex用
         
         # 全農値
         self.market_date = Const.STRING_EMPTY
