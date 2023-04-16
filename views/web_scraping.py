@@ -46,7 +46,7 @@ class WebScraping(object):
         """
         driver = webdriver.Chrome()
         driver.get(Const.ZENNO_URL)
-        Const.time_keeper(5)
+        Const.time_keeper(2)
         
         today = date.today() # 本日日付を取得する →datetime.date(2023, 3, 17)
         
@@ -72,16 +72,16 @@ class WebScraping(object):
         target_link = driver.find_element(By.LINK_TEXT, get_month)
         Const.time_keeper(2)
         driver.execute_script('arguments[0].click();', target_link)
-        Const.time_keeper(5)
+        Const.time_keeper(2)
         
         # ブラウザのタブを切り替える(ページタブを切り替える)
         driver.switch_to.window(driver.window_handles[1])
-        Const.time_keeper(5)
+        Const.time_keeper(2)
         
         # [Excel]ボタンの実行
         driver.execute_script('javascript:excelout()')
         
-        Const.time_keeper(10)
+        Const.time_keeper(5)
         driver.close()
         print('Excelを取得しました。')
         
@@ -97,26 +97,25 @@ class WebScraping(object):
         """
         driver = webdriver.Chrome()
         driver.get(Const.ZENNO_URL)
-        Const.time_keeper(5)
+        Const.time_keeper(2)
         
         # 引数を年と月に分ける
         target_year = int(self.target_date[0:4])
         target_month = self.target_date[5:6] + '月'
-        
         # 本日日付を取得する
         today = date.today() # →datetime.date(例:2023, 3, 17)
         
         # class属性からターゲット要素を絞り込む
-        if target_year == today.year:
+        if target_year == today.year and target_month in Const.YEAR_MONTHS:
             target_elem = driver.find_element(By.CLASS_NAME, 'thisYear')
-        elif target_year == today.year and target_month == 4:
-            # 4月だけは昨年度の3月を取得することになるので、属性値を変更する
+        elif target_year == today.year and target_month in Const.LAST_YEAR_MONTHS:
+            # 1,2,3月だけは昨年度を取得することになるので、属性値を変更する
             target_elem = driver.find_element(By.CLASS_NAME, 'lastYear')
-        elif target_year < today.year:
+        elif target_year == today.year -1 and target_month in Const.YEAR_MONTHS:
             target_elem = driver.find_element(By.CLASS_NAME, 'lastYear')
         else:
             return
-
+        
         months = target_elem.text.split('\n') # →['4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月', '1月', '2月', '3月']
         
         # monthsからターゲット月を取得する
@@ -126,23 +125,24 @@ class WebScraping(object):
                 get_month = month
                 break
             continue
-
+        
         # ターゲットのリンクテキスト名の要素を取得
         target_link = driver.find_element(By.LINK_TEXT, get_month)
         Const.time_keeper(2)
-        target_link.click()
-        Const.time_keeper(5)
+        driver.execute_script('arguments[0].click();', target_link)
+        Const.time_keeper(2)
         
         # ブラウザのタブを切り替える(ページタブを切り替える)
         driver.switch_to.window(driver.window_handles[1])
-        Const.time_keeper(5)
+        Const.time_keeper(2)
         
         # [Excel]ボタンの実行
         btn_excel = 'javascript:excelout()'
         driver.execute_script(btn_excel)
         
-        Const.time_keeper(10)
+        Const.time_keeper(5)
         driver.close()
         print('Excelを取得しました。')
+        file_date = int(self.target_date)
         
-        return int(self.target_date)
+        return file_date
