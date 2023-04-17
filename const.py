@@ -74,6 +74,15 @@ class Const(object):
         value_trance = int(value.replace('日', '')) # 1~31
         
         return value_trance
+    
+    
+    @classmethod
+    def create_date(cls, value: str):
+        # from datetime import date, datetime
+        # value: str = '2023031'
+        dte = datetime.strptime(value, '%Y%m%d') # (2023, 3, 1, 0, 0)
+        
+        return dte
 
 
     @classmethod

@@ -29,6 +29,7 @@ class WebScraping(object):
         finally:
             self.__file_move(file_date)
             print('コピーしました。')
+            return file_date
 
 
     def __file_move(self, file_date):

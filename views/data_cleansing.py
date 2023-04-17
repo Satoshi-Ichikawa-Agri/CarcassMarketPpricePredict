@@ -7,12 +7,14 @@ from const import Const
 
 class DataCleansing(object):
     
-    def __init__(self):
+    def __init__(self, file_date):
+        self.file_date = file_date
+        
         # 対象のExcelファイルを指定する
-        self.wb_original = load_workbook('download/豚肉相場一覧表_202303.xlsx')
+        self.wb_original = load_workbook(f'download/豚肉相場一覧表_{ self.file_date }.xlsx')
         self.wb_summary = load_workbook('豚枝肉相場_Summary.xlsx')
         # 対象のシートを指定する
-        self.ws_original = self.wb_original['豚肉相場一覧表_202303']
+        self.ws_original = self.wb_original[f'豚肉相場一覧表_{ self.file_date }']
         self.ws_summary = self.wb_summary['Sheet1']
 
 
@@ -34,7 +36,7 @@ class DataCleansing(object):
             if Const.is_null_or_empty(market_date):
                 continue
             market_date = str(Const.date_replace(market_date))
-            
+            market_date = str(self.file_date) + market_date
             model = CarcassMarketPrice()
             model.market_date = market_date
             

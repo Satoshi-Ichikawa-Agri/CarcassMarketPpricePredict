@@ -16,10 +16,10 @@ def execute():
     """
     # コマンドライン引数を取得する
     arg_list = sys.argv
-    # web_scraping = WebScraping(Const.get_target_date(arg_list))
-    # web_scraping.processing()
+    web_scraping = WebScraping(Const.get_target_date(arg_list))
+    file_date = web_scraping.processing()
     
-    data_cleansing = DataCleansing()
+    data_cleansing = DataCleansing(file_date)
     data_cleansing.data_cleansing_process()
 
 
