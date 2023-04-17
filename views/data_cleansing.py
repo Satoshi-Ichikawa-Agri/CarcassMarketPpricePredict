@@ -1,3 +1,4 @@
+import re
 from openpyxl import load_workbook
 
 from models.models import CarcassMarketPrice
@@ -8,10 +9,10 @@ class DataCleansing(object):
     
     def __init__(self):
         # 対象のExcelファイルを指定する
-        self.wb_original = load_workbook('download/豚肉相場一覧表_202302.xlsx')
+        self.wb_original = load_workbook('download/豚肉相場一覧表_202303.xlsx')
         self.wb_summary = load_workbook('豚枝肉相場_Summary.xlsx')
         # 対象のシートを指定する
-        self.ws_original = self.wb_original['豚肉相場一覧表_202302']
+        self.ws_original = self.wb_original['豚肉相場一覧表_202303']
         self.ws_summary = self.wb_summary['Sheet1']
 
 
@@ -32,6 +33,7 @@ class DataCleansing(object):
                 continue
             if Const.is_null_or_empty(market_date):
                 continue
+            market_date = str(Const.date_replace(market_date))
             
             model = CarcassMarketPrice()
             model.market_date = market_date
@@ -53,7 +55,7 @@ class DataCleansing(object):
             # 全農建値
             model.zennoh_high_price = self.__get_value(3, row)
             model.zennoh_middle_price = self.__get_value(5, row)
-            model.nationwide_slaughter = self.__get_value(8, row)
+            model.nationwide_slaughter = self.__remove_date(self.__get_value(8, row))
             
             # Tokyo
             model.tokyo_high_price = self.__get_value(11, row)
@@ -147,7 +149,7 @@ class DataCleansing(object):
     def __set_value(self, column, row, value):
         """ 対象セルに値をセットする
         """
-        self.ws_summary.cell(column=column, row=row).value = value
+        self.ws_summary.cell(column=column, row=row).value = self.__type_conversion(value)
 
 
     def __get_market_date(self, row):
@@ -164,3 +166,28 @@ class DataCleansing(object):
             end: 終了位置
         """
         return value[:start] + value[end + 1:]
+    
+    
+    def __remove_date(self, value):
+        """ 豚肉相場一覧表_yyyymm.xlsxの「全国と畜頭数」列の値が
+        数値と日付の情報となっているので、日付を削除する処理
+        変更前: 68800 (2023/02/28)
+        変更後: 68800
+        """
+        # 正規表現
+        regex = r'\(\d{4}/\d{1,2}/\d{1,2}\)'
+        # 正規表現で示して値だけ削除し、さらに空白を削除する
+        removed_value = str.strip(re.sub(regex, '', value))
+        
+        return removed_value
+    
+    
+    def __type_conversion(self, value):
+        """ 型変換関数
+        valueがない → str
+        valueがある → int
+        """
+        if not Const.is_null_or_empty(value):
+            value = int(value)
+
+        return value
