@@ -71,18 +71,16 @@ class Const(object):
         Parameters:
             value: ダウンロードA列の「日」の値(例01日,02日)
         """
-        value_trance = int(value.replace('日', '')) # 1~31
+        value_trance = value.replace('日', '') # 01~31
         
         return value_trance
     
     
     @classmethod
-    def create_date(cls, value: str):
-        # from datetime import date, datetime
-        # value: str = '2023031'
-        dte = datetime.strptime(value, '%Y%m%d') # (2023, 3, 1, 0, 0)
+    def from_str_to_date(cls, value: str):
+        date_date = date.fromisoformat(value)
         
-        return dte
+        return date_date
 
 
     @classmethod

@@ -15,11 +15,11 @@ def execute():
     """ 実行
     """
     # コマンドライン引数を取得する
-    arg_list = sys.argv
-    web_scraping = WebScraping(Const.get_target_date(arg_list))
-    file_date = web_scraping.processing()
+    # arg_list = sys.argv
+    # web_scraping = WebScraping(Const.get_target_date(arg_list))
+    # file_date = web_scraping.processing()
     
-    data_cleansing = DataCleansing(file_date)
+    data_cleansing = DataCleansing(file_date='202303')
     data_cleansing.data_cleansing_process()
 
 

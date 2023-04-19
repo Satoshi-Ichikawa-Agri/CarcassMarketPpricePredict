@@ -35,8 +35,7 @@ class DataCleansing(object):
                 continue
             if Const.is_null_or_empty(market_date):
                 continue
-            market_date = str(Const.date_replace(market_date))
-            market_date = str(self.file_date) + market_date
+            market_date = self.file_date + Const.date_replace(market_date)
             model = CarcassMarketPrice()
             model.market_date = market_date
             
@@ -93,7 +92,7 @@ class DataCleansing(object):
             
             row = model.index + 3
             
-            self.__set_value(1, row, model.market_date)
+            self.__set_value_of_date(1, row, Const.from_str_to_date(model.market_date))
             
             # 全農建値
             self.__set_value(2, row, model.nationwide_slaughter)
@@ -152,6 +151,12 @@ class DataCleansing(object):
         """ 対象セルに値をセットする
         """
         self.ws_summary.cell(column=column, row=row).value = self.__type_conversion(value)
+
+
+    def __set_value_of_date(self, column, row, value):
+        """ 対象セルに値をセットする(date型の値限定)
+        """
+        self.ws_summary.cell(column=column, row=row).value = value
 
 
     def __get_market_date(self, row):
