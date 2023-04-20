@@ -9,6 +9,7 @@ import traceback
 from const import Const
 from views.web_scraping import WebScraping
 from views.data_cleansing import DataCleansing
+from views.from_excel_to_db import process
 
 
 def execute():
@@ -19,8 +20,10 @@ def execute():
     # web_scraping = WebScraping(Const.get_target_date(arg_list))
     # file_date = web_scraping.processing()
     
-    data_cleansing = DataCleansing(file_date='202303')
-    data_cleansing.data_cleansing_process()
+    # data_cleansing = DataCleansing(file_date='202303')
+    # data_cleansing.data_cleansing_process()
+    process()
+    
 
 
 if __name__ == '__main__':
