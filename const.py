@@ -20,29 +20,16 @@ class Const(object):
     YEAR_MONTHS = ('4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月')
     LAST_YEAR_MONTHS = ('1月', '2月', '3月')
 
+
     DATE_NOW = datetime.now().strftime('%Y/%m/%d_%H:%M:%S') # 本日日時
+    
+    TODAY = date.today() # 本日日付(2023, 4, 12)
     DATE_TODAY = date.today().strftime('%Y/%m/%d') # 本日日付('2023/04/12')
     DATE_YEAR_AND_MONTH = date.today().strftime('%Y%m') # 当月('202304')
     
-    DELIMITER = '/'
-    TRANCE_DATE = {
-        '年': DELIMITER,
-        '月': DELIMITER,
-        '日': DELIMITER,
-        '.': DELIMITER,
-        '-': DELIMITER,
-    }
-
-    # Market Region
-    TOKYO = '東京'
-    SAITAMA = 'さいたま'
-    YOKOHAMA = '横浜'
-    OSAKA = '大阪'
-    ZENNO = '全農建値'
-
 
     @classmethod
-    def get_target_date(cls, arg_list):
+    def check_target_date(cls, arg_list):
         """ Consoleの引数からtarget_dateを取得する
         python main.py 202303
         """
@@ -78,6 +65,8 @@ class Const(object):
     
     @classmethod
     def from_str_to_date(cls, value: str):
+        """ 日付の型変換(str → date)
+        """
         date_date = date.fromisoformat(value)
         
         return date_date

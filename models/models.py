@@ -4,9 +4,10 @@ from const import Const
 
 
 class CarcassMarketPrice(object):
-    """ 枝肉相場データの一時格納テーブル
+    """ 枝肉相場データの格納テーブル
     """
     def __init__(self):
+        
         self.index = Const.INT_UNSET # for文のindex用
         # 全農値
         self.market_date = Const.STRING_EMPTY
@@ -37,3 +38,4 @@ class CarcassMarketPrice(object):
         self.osaka_ordinary_price = Const.STRING_EMPTY
         self.osaka_outside_price = Const.STRING_EMPTY
         self.osaka_head_count = Const.STRING_EMPTY
+    

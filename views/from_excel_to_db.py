@@ -3,10 +3,13 @@ from openpyxl import load_workbook
 
 from const import Const
 
-wb_summary = load_workbook('豚枝肉相場_Summary.xlsx')
-ws_summary = wb_summary['Sheet1']
+
+
 
 def db_insert():
+    
+    wb_summary = load_workbook('豚枝肉相場_Summary.xlsx')
+    ws_summary = wb_summary['Sheet1']
     
     # DBにInsertする
     db = MySQLdb.connect(
@@ -20,8 +23,12 @@ def db_insert():
     cursor = db.cursor()
     
     for row in range(3, ws_summary.max_row + 1):
+        
         # 全農値
         market_date = ws_summary.cell(row, 1).value
+        if market_date == None or market_date == 'None':
+            break
+        
         nationwide_slaughter = ws_summary.cell(row, 2).value
         zennoh_high_price = ws_summary.cell(row, 3).value
         zennoh_middle_price = ws_summary.cell(row, 4).value
@@ -138,7 +145,15 @@ def db_insert():
     db.close()
     print('summaryのDBインサートが完了しました。')
 
-wb_summary.close()
+
+    # 処理終了後にsummaryの値がある行を削除する
+    for row in ws_summary.iter_rows(min_row=3):
+        for cell in row:
+            cell.value = None
+
+    #別名で保存
+    wb_summary.save('豚枝肉相場_Summary.xlsx')
+    wb_summary.close()
 
 
 """ ここからはDB操作 """
