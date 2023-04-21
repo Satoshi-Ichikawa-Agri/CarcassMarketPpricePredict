@@ -37,5 +37,3 @@ class CarcassMarketPrice(object):
         self.osaka_ordinary_price = Const.STRING_EMPTY
         self.osaka_outside_price = Const.STRING_EMPTY
         self.osaka_head_count = Const.STRING_EMPTY
-
-

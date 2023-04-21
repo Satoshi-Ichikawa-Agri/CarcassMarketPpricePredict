@@ -49,8 +49,6 @@ class DataCleansing(object):
             model: CarcassMarketPrice = model
             
             model.index = i
-            # if i == 1:
-            #     row = i + 1
             row = i + 6
             
             # 全農建値
