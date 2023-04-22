@@ -61,8 +61,8 @@ class Const(object):
         value_trance = value.replace('日', '') # 01~31
         
         return value_trance
-    
-    
+
+
     @classmethod
     def from_str_to_date(cls, value: str):
         """ 日付の型変換(str → date)
@@ -70,6 +70,17 @@ class Const(object):
         date_date = date.fromisoformat(value)
         
         return date_date
+
+
+    @classmethod
+    def remove_value(cls, value, start, end):
+        """ 指定した範囲の文字列を削除する
+        Parameters:
+            value: 対象の値
+            start: 開始位置
+            end: 終了位置
+        """
+        return value[:start] + value[end + 1:]
 
 
     @classmethod

@@ -9,6 +9,7 @@ from const import Const
 class WebScraping(object):
     """ Web Scraping
     """
+    
     def __init__(self, target_date):
         self.target_date = target_date
 
@@ -50,7 +51,6 @@ class WebScraping(object):
 
         # ターゲットのリンクテキスト名の要素を取得
         target_link = driver.find_element(By.LINK_TEXT, get_month)
-        Const.time_keeper(2)
         driver.execute_script('arguments[0].click();', target_link)
         Const.time_keeper(2)
         
@@ -69,8 +69,8 @@ class WebScraping(object):
         previous_month_return = int(Const.DATE_YEAR_AND_MONTH) -1 # yyyymm-1
         
         return previous_month_return
-    
-    
+
+
     def download_excel_specify(self):
         """ 引数指定をする場合の処理
         引数の月の枝肉市場結果を取得する。
@@ -109,7 +109,6 @@ class WebScraping(object):
         
         # ターゲットのリンクテキスト名の要素を取得
         target_link = driver.find_element(By.LINK_TEXT, get_month)
-        Const.time_keeper(2)
         driver.execute_script('arguments[0].click();', target_link)
         Const.time_keeper(2)
         

@@ -11,7 +11,7 @@ import sys
 from const import Const
 from views.web_scraping import WebScraping
 from views.data_cleansing import DataCleansing
-from views.from_excel_to_db import db_insert
+from views.from_excel_to_db import DbInsert
 
 
 def execute():
@@ -27,8 +27,8 @@ def execute():
     data_cleansing.data_cleansing_process()
     
     Const.time_keeper(5)
-    db_insert()
-    
+    db_insert = DbInsert()
+    db_insert.insert_carcass()
 
 
 if __name__ == '__main__':
