@@ -75,8 +75,7 @@ class DataCleansing(object):
     
     
     def data_cleansing_process(self):
-        """ データクレンジング処理
-        """
+        """ データクレンジング処理 """
 
         model_list = []
         

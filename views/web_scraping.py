@@ -7,8 +7,7 @@ from const import Const
 
 
 class WebScraping(object):
-    """ Web Scraping
-    """
+    """ Web Scraping """
     
     def __init__(self, target_date):
         self.target_date = target_date

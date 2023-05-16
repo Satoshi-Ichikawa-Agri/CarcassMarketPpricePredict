@@ -1,13 +1,11 @@
-""" 定数やfunctionの管理
-"""
+""" 定数やfunctionの管理 """
 import os
 import time
 from datetime import date, datetime
 
 
 class Const(object):
-    """ 定数とfunction
-    """
+    """ 定数とfunction """
     
     ZENNO_URL = 'https://www.jazmf.co.jp/market/list.html'
     DOWNLOAD_DIR = 'C:/Users/daiko/Downloads'
@@ -85,7 +83,6 @@ class Const(object):
 
     @classmethod
     def time_keeper(cls, seconds: int):
-        """ Time Keeper
-        """
+        """ Time Keeper """
         time.sleep(seconds)
 

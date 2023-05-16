@@ -3,12 +3,10 @@ from openpyxl import load_workbook
 
 
 class DbInsert(object):
-    """
-    """
+    """"""
     
     def insert_carcass(self):
-        """ carcassテーブルにsummaryをinsert
-        """
+        """ carcassテーブルにsummaryをinsert """
 
         wb_summary = load_workbook('豚枝肉相場_Summary.xlsx')
         ws_summary = wb_summary['Sheet1']
@@ -185,6 +183,5 @@ class DbInsert(object):
             for cell in row:
                 cell.value = None
 
-        #別名で保存
         wb_summary.save('豚枝肉相場_Summary.xlsx')
         wb_summary.close()
