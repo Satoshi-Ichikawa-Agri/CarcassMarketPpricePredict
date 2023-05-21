@@ -7,10 +7,11 @@ from datetime import date, datetime
 class Const(object):
     """ 定数とfunction """
     
+    WORKSPACE_DIR = os.getcwd() # 'C:\\Users\\daiko\\Develop_satoshi\\CarcassMarketPpricePredict'
+    
     ZENNO_URL = 'https://www.jazmf.co.jp/market/list.html'
     DOWNLOAD_DIR = 'C:/Users/daiko/Downloads'
-    
-    WORKSPACE_DIR = os.getcwd() # workspaceのdirectory_path
+    OUTPUT_DIR = f'{ WORKSPACE_DIR }/output'
     
     INT_UNSET = -1 # int型valueのunset
     STRING_EMPTY = '' # str型valueのunset

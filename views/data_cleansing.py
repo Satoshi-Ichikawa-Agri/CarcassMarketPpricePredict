@@ -1,11 +1,14 @@
+import os
+import shutil
 import re
 from openpyxl import load_workbook
 
-from models.models import CarcassMarketPrice
+from models.models import CarcassMarketPriceExcel
 from const import Const
 
 
 class DataCleansing(object):
+    """ Data Cleansing """
     
     def __init__(self, file_date):
         self.file_date = file_date
@@ -18,9 +21,13 @@ class DataCleansing(object):
         self.ws_summary = self.wb_summary['Sheet1']
 
 
+    def get_market_date(self, row):
+        """取得判断フラグとして、A列の市場日付を取得する """
+        return self.get_value(1, row)
+
+
     def get_value(self, column, row):
-        """ 対象セルの値を取得する
-        """
+        """ 対象セルの値を取得する """
         if column < 0 or row < 0:
             return ''
         value = str(self.ws_original.cell(row=row, column=column).value)
@@ -32,21 +39,13 @@ class DataCleansing(object):
 
 
     def set_value(self, column, row, value):
-        """ 対象セルに値をセットする
-        """
+        """ 対象セルに値をセットする """
         self.ws_summary.cell(column=column, row=row).value = self.type_conversion(value)
 
 
     def set_value_of_date(self, column, row, value):
-        """ 対象セルに値をセットする(date型の値限定)
-        """
+        """ 対象セルに値をセットする(date型の値限定) """
         self.ws_summary.cell(column=column, row=row).value = value
-
-
-    def get_market_date(self, row):
-        """取得判断フラグとして、A列の市場日付を取得する
-        """
-        return self.get_value(1, row)
 
 
     def remove_date(self, value):
@@ -74,6 +73,13 @@ class DataCleansing(object):
         return value
     
     
+    def summary_copy(self):
+        """ Summaryファイルをoutputフォルダにコピーする """
+        summary_file_path = os.path.join(Const.WORKSPACE_DIR, '豚枝肉相場_Summary.xlsx')
+        output_file_path = os.path.join(Const.OUTPUT_DIR, f'豚枝肉相場_Summary_{ self.file_date }.xlsx')
+        shutil.copy2(summary_file_path, output_file_path)
+
+
     def data_cleansing_process(self):
         """ データクレンジング処理 """
 
@@ -90,7 +96,7 @@ class DataCleansing(object):
                 break
             
             market_date = str(self.file_date) + Const.date_replace(market_date)
-            model = CarcassMarketPrice()
+            model = CarcassMarketPriceExcel()
             model.market_date = market_date
             
             model_list.append(model)
@@ -99,7 +105,7 @@ class DataCleansing(object):
         
         # 元データの値を取得する
         for i, model in enumerate(model_list):
-            model: CarcassMarketPrice = model
+            model: CarcassMarketPriceExcel = model
             model.index = i
             row = i + 6
             
@@ -134,7 +140,7 @@ class DataCleansing(object):
         
         # Summaryにセットする
         for model in model_list:
-            model: CarcassMarketPrice = model
+            model: CarcassMarketPriceExcel = model
             row = model.index + 3
             
             self.set_value_of_date(1, row, Const.from_str_to_date(model.market_date))
@@ -171,3 +177,5 @@ class DataCleansing(object):
         
         self.wb_original.close()
         self.wb_summary.close()
+        
+        self.summary_copy()

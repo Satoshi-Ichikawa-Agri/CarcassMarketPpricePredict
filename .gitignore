@@ -131,7 +131,7 @@ dmypy.json
 
 # SATOSHI Original
 Dev_Note.txt
-test.ipynb
 豚枝肉相場_Summary.xlsx
 /download
-/.vscode
+/output
+

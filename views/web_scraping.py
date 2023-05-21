@@ -1,7 +1,9 @@
 import os
 import shutil
-from selenium import webdriver # Selenium Web自動操作
-from selenium.webdriver.common.by import By # HTML要素の検索
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service as ChromeService
+from selenium.webdriver.common.by import By
+from webdriver_manager.chrome import ChromeDriverManager
 
 from const import Const
 
@@ -26,7 +28,7 @@ class WebScraping(object):
         """ 引数指定をしない場合の処理
         当月から見て、前月の枝肉市場結果を取得する。
         """
-        driver = webdriver.Chrome()
+        driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
         driver.get(Const.ZENNO_URL)
         Const.time_keeper(2)
         
@@ -74,7 +76,7 @@ class WebScraping(object):
         """ 引数指定をする場合の処理
         引数の月の枝肉市場結果を取得する。
         """
-        driver = webdriver.Chrome()
+        driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
         driver.get(Const.ZENNO_URL)
         Const.time_keeper(2)
         
