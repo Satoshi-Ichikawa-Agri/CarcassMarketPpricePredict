@@ -1,4 +1,3 @@
-import MySQLdb
 from openpyxl import load_workbook
 
 from settings import DbSetting
@@ -84,7 +83,6 @@ class DbInsert(object):
             
             session.add(model)
             session.commit()
-            print('INSERTが成功した。')
 
         print('summaryのDBインサートが完了しました。')
         

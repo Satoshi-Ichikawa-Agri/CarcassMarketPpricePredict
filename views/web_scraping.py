@@ -82,18 +82,29 @@ class WebScraping(object):
         
         # 引数を年と月に分ける
         target_year = int(self.target_date[0:4])
-        target_month = self.target_date[5:6] + '月'
+        if self.target_date[4] == '0':
+            target_month = self.target_date[5] + '月' # 1~9月
+        else:
+            target_month = self.target_date[4:6] + '月' # 10~12月
         
         # class属性からターゲット要素を絞り込む
-        if target_year == Const.TODAY.year and target_month in Const.YEAR_MONTHS:
-            # 今年かつ4-12月であるとき
+        # this_year_or_last_year_flag: 当年度:True, 昨年度:False
+        if target_year == Const.TODAY.year +1 and target_month in Const.LAST_YEAR_MONTHS:
+            # 翌年かつ1-3月であるとき(=当年度)
             target_elem = driver.find_element(By.CLASS_NAME, 'thisYear')
+            this_year_or_last_year_flag = True
+        elif target_year == Const.TODAY.year and target_month in Const.YEAR_MONTHS:
+            # 今年かつ4-12月であるとき(=当年度)
+            target_elem = driver.find_element(By.CLASS_NAME, 'thisYear')
+            this_year_or_last_year_flag = True
         elif target_year == Const.TODAY.year and target_month in Const.LAST_YEAR_MONTHS:
-            # 今年かつ1-3月である
+            # 今年かつ1-3月である(=昨年度)
             target_elem = driver.find_element(By.CLASS_NAME, 'lastYear')
+            this_year_or_last_year_flag = False
         elif target_year == Const.TODAY.year -1 and target_month in Const.YEAR_MONTHS:
             # 昨年かつ4-12月である
             target_elem = driver.find_element(By.CLASS_NAME, 'lastYear')
+            this_year_or_last_year_flag = False
         else:
             # 上記に該当しない場合は処理を終了
             return
@@ -109,8 +120,18 @@ class WebScraping(object):
             continue
         
         # ターゲットのリンクテキスト名の要素を取得
-        target_link = driver.find_element(By.LINK_TEXT, get_month)
-        driver.execute_script('arguments[0].click();', target_link)
+        target_link = driver.find_elements(By.LINK_TEXT, get_month)
+        if this_year_or_last_year_flag:
+            driver.execute_script('arguments[0].click();', target_link[0])
+        elif not this_year_or_last_year_flag:
+            if len(target_link) == 1:
+                # 昨年度かつ、当年度に同一月が生成されていないとき
+                driver.execute_script('arguments[0].click();', target_link[0])
+            else:
+                # 昨年度かつ、当年度に同一月が生成されているとき
+                driver.execute_script('arguments[0].click();', target_link[1])
+        else:
+            return
         Const.time_keeper(2)
         
         # ブラウザのタブを切り替える(ページタブを切り替える)
