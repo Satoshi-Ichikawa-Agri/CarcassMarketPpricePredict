@@ -93,3 +93,5 @@ def create_table():
     db_setting = DbSetting()
     engine = db_setting.get_db_engine()
     BASE.metadata.create_all(engine)
+    
+    return engine

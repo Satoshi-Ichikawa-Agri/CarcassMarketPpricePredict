@@ -17,7 +17,7 @@ class DbInsert(object):
         db_setting = DbSetting()
         session = db_setting.get_db_session()
 
-        create_table()
+        engine = create_table()
 
         # Summaryからデータを取得する
         for row in range(3, ws_summary.max_row + 1):
@@ -93,3 +93,9 @@ class DbInsert(object):
 
         wb_summary.save('豚枝肉相場_Summary.xlsx')
         wb_summary.close()
+        
+        # DBと切断
+        session.close()
+        
+        # エンジン破棄
+        db_setting.dispose_db_engine(engine)

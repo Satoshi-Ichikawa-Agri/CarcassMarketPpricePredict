@@ -21,6 +21,10 @@ class DbSetting(object):
         """"""
         return create_engine(self.DB_URL, echo=True)
     
+    def dispose_db_engine(self, engine):
+        """"""
+        return engine.dispose()
+    
     def get_db_session(self):
         """"""
         return scoped_session(
