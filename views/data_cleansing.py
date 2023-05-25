@@ -23,10 +23,10 @@ class DataCleansing(object):
 
     def get_market_date(self, row):
         """取得判断フラグとして、A列の市場日付を取得する """
-        return self.get_value(1, row)
+        return self.get_value(row, 1)
 
 
-    def get_value(self, column, row):
+    def get_value(self, row, column):
         """ 対象セルの値を取得する """
         if column < 0 or row < 0:
             return ''
@@ -38,14 +38,14 @@ class DataCleansing(object):
         return value
 
 
-    def set_value(self, column, row, value):
+    def set_value(self, row, column, value):
         """ 対象セルに値をセットする """
-        self.ws_summary.cell(column=column, row=row).value = self.type_conversion(value)
+        self.ws_summary.cell(row=row, column=column).value = self.type_conversion(value)
 
 
-    def set_value_of_date(self, column, row, value):
+    def set_value_of_date(self, row, column, value):
         """ 対象セルに値をセットする(date型の値限定) """
-        self.ws_summary.cell(column=column, row=row).value = value
+        self.ws_summary.cell(row=row, column=column).value = value
 
 
     def remove_date(self, value):
@@ -110,68 +110,68 @@ class DataCleansing(object):
             row = i + 6
             
             # 全農建値
-            model.zennoh_high_price = self.get_value(3, row)
-            model.zennoh_middle_price = self.get_value(5, row)
-            model.nationwide_slaughter = self.remove_date(self.get_value(8, row))
+            model.zennoh_high_price = self.get_value(row, 3)
+            model.zennoh_middle_price = self.get_value(row, 5)
+            model.nationwide_slaughter = self.remove_date(self.get_value(row, 8))
             # Tokyo
-            model.tokyo_high_price = self.get_value(11, row)
-            model.tokyo_middle_price = self.get_value(13, row)
-            model.tokyo_ordinary_price = self.get_value(15, row)
-            model.tokyo_outside_price = self.get_value(17, row)
-            model.tokyo_head_count = self.get_value(19, row)
+            model.tokyo_high_price = self.get_value(row, 11)
+            model.tokyo_middle_price = self.get_value(row, 13)
+            model.tokyo_ordinary_price = self.get_value(row, 15)
+            model.tokyo_outside_price = self.get_value(row, 17)
+            model.tokyo_head_count = self.get_value(row, 19)
             # Saitama
-            model.saitama_high_price = self.get_value(22, row)
-            model.saitama_middle_price = self.get_value(24, row)
-            model.saitama_ordinary_price = self.get_value(26, row)
-            model.saitama_outside_price = self.get_value(28, row)
-            model.saitama_head_count = self.get_value(30, row)
+            model.saitama_high_price = self.get_value(row, 22)
+            model.saitama_middle_price = self.get_value(row, 24)
+            model.saitama_ordinary_price = self.get_value(row, 26)
+            model.saitama_outside_price = self.get_value(row, 28)
+            model.saitama_head_count = self.get_value(row, 30)
             # Yokohama
-            model.yokohama_high_price = self.get_value(33, row)
-            model.yokohama_middle_price = self.get_value(35, row)
-            model.yokohama_ordinary_price = self.get_value(37, row)
-            model.yokohama_outside_price = self.get_value(39, row)
-            model.yokohama_head_count = self.get_value(41, row)
+            model.yokohama_high_price = self.get_value(row, 33)
+            model.yokohama_middle_price = self.get_value(row, 35)
+            model.yokohama_ordinary_price = self.get_value(row, 37)
+            model.yokohama_outside_price = self.get_value(row, 39)
+            model.yokohama_head_count = self.get_value(row, 41)
             # Osaka
-            model.osaka_high_price = self.get_value(44, row)
-            model.osaka_middle_price = self.get_value(46, row)
-            model.osaka_ordinary_price = self.get_value(48, row)
-            model.osaka_outside_price = self.get_value(50, row)
-            model.osaka_head_count = self.get_value(52, row)
+            model.osaka_high_price = self.get_value(row, 44)
+            model.osaka_middle_price = self.get_value(row, 46)
+            model.osaka_ordinary_price = self.get_value(row, 48)
+            model.osaka_outside_price = self.get_value(row, 50)
+            model.osaka_head_count = self.get_value(row, 52)
         
         # Summaryにセットする
         for model in model_list:
             model: CarcassMarketPriceExcel = model
             row = model.index + 3
             
-            self.set_value_of_date(1, row, Const.from_str_to_date(model.market_date))
+            self.set_value_of_date(row, 1, Const.from_str_to_date(model.market_date))
             # 全農建値
-            self.set_value(2, row, model.nationwide_slaughter)
-            self.set_value(3, row, model.zennoh_high_price)
-            self.set_value(4, row, model.zennoh_middle_price)
+            self.set_value(row, 2, model.nationwide_slaughter)
+            self.set_value(row, 3, model.zennoh_high_price)
+            self.set_value(row, 4, model.zennoh_middle_price)
             # Tokyo
-            self.set_value(5, row, model.tokyo_high_price)
-            self.set_value(6, row, model.tokyo_middle_price)
-            self.set_value(7, row, model.tokyo_ordinary_price)
-            self.set_value(8, row, model.tokyo_outside_price)
-            self.set_value(9, row, model.tokyo_head_count)
+            self.set_value(row, 5, model.tokyo_high_price)
+            self.set_value(row, 6, model.tokyo_middle_price)
+            self.set_value(row, 7, model.tokyo_ordinary_price)
+            self.set_value(row, 8, model.tokyo_outside_price)
+            self.set_value(row, 9, model.tokyo_head_count)
             # Saitama
-            self.set_value(10, row, model.saitama_high_price)
-            self.set_value(11, row, model.saitama_middle_price)
-            self.set_value(12, row, model.saitama_ordinary_price)
-            self.set_value(13, row, model.saitama_outside_price)
-            self.set_value(14, row, model.saitama_head_count)
+            self.set_value(row, 10, model.saitama_high_price)
+            self.set_value(row, 11, model.saitama_middle_price)
+            self.set_value(row, 12, model.saitama_ordinary_price)
+            self.set_value(row, 13, model.saitama_outside_price)
+            self.set_value(row, 14, model.saitama_head_count)
             # Yokohama
-            self.set_value(15, row, model.yokohama_high_price)
-            self.set_value(16, row, model.yokohama_middle_price)
-            self.set_value(17, row, model.yokohama_ordinary_price)
-            self.set_value(18, row, model.yokohama_outside_price)
-            self.set_value(19, row, model.yokohama_head_count)
+            self.set_value(row, 15, model.yokohama_high_price)
+            self.set_value(row, 16, model.yokohama_middle_price)
+            self.set_value(row, 17, model.yokohama_ordinary_price)
+            self.set_value(row, 18, model.yokohama_outside_price)
+            self.set_value(row, 19, model.yokohama_head_count)
             # Osaka
-            self.set_value(20, row, model.osaka_high_price)
-            self.set_value(21, row, model.osaka_middle_price)
-            self.set_value(22, row, model.osaka_ordinary_price)
-            self.set_value(23, row, model.osaka_outside_price)
-            self.set_value(24, row, model.osaka_head_count)
+            self.set_value(row, 20, model.osaka_high_price)
+            self.set_value(row, 21, model.osaka_middle_price)
+            self.set_value(row, 22, model.osaka_ordinary_price)
+            self.set_value(row, 23, model.osaka_outside_price)
+            self.set_value(row, 24, model.osaka_head_count)
         
         self.wb_summary.save('豚枝肉相場_Summary.xlsx')
         
