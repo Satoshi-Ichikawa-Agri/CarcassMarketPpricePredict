@@ -1,8 +1,8 @@
 """ model """
 from datetime import datetime
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.schema import Column, Sequence
-from sqlalchemy.types import Integer, String, DateTime, Date
+from sqlalchemy.schema import Column
+from sqlalchemy.types import Integer, DateTime, Date
 
 from const import Const
 from settings import DbSetting
@@ -14,9 +14,9 @@ BASE = declarative_base()
 
 class CarcassMarketPrice(BASE):
     """ Carcass Market Price Model """
-    
+
     __tablename__ = 'carcass_market_price'
-    
+
     id = Column(Integer, primary_key=True, autoincrement=True) # 主キー
     market_date = Column(Date, nullable=False)
     nationwide_slaughter = Column(Integer, nullable=True)
@@ -46,17 +46,15 @@ class CarcassMarketPrice(BASE):
     osaka_ordinary_price = Column(Integer, nullable=True)
     osaka_outside_price = Column(Integer, nullable=True)
     osaka_head_count = Column(Integer, nullable=True)
-    
     created_at = Column(DateTime, default=datetime.now, nullable=False)
     updated_at = Column(DateTime, default=datetime.now, nullable=False)
 
 
 class CarcassMarketPriceExcel(object):
     """ 元データ→Excel """
-    
+
     def __init__(self):
-        
-        self.index = Const.INT_UNSET # for文のindex用
+        self.index = Const.INT_UNSET  # for文のindex用
         # 全農値
         self.market_date = Const.STRING_EMPTY
         self.nationwide_slaughter = Const.STRING_EMPTY
@@ -93,5 +91,5 @@ def create_table():
     db_setting = DbSetting()
     engine = db_setting.get_db_engine()
     BASE.metadata.create_all(engine)
-    
+
     return engine

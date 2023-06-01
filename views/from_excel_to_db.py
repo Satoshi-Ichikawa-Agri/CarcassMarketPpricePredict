@@ -6,13 +6,12 @@ from models.models import CarcassMarketPrice, create_table
 
 class DbInsert(object):
     """"""
-    
+
     def insert_carcass(self):
         """ carcassテーブルにsummaryをinsert """
-
         wb_summary = load_workbook('豚枝肉相場_Summary.xlsx')
         ws_summary = wb_summary['Sheet1']
-        
+
         # DB接続
         db_setting = DbSetting()
         session = db_setting.get_db_session()
@@ -22,9 +21,9 @@ class DbInsert(object):
         # Summaryからデータを取得する
         for row in range(3, ws_summary.max_row + 1):
             market_date = ws_summary.cell(row, 1).value
-            if market_date == None or market_date == 'None':
+            if market_date is None or market_date == 'None':
                 break
-            
+
             # 全農値
             nationwide_slaughter = ws_summary.cell(row, 2).value
             zennoh_high_price = ws_summary.cell(row, 3).value
@@ -53,7 +52,7 @@ class DbInsert(object):
             osaka_ordinary_price = ws_summary.cell(row, 22).value
             osaka_outside_price = ws_summary.cell(row, 23).value
             osaka_head_count = ws_summary.cell(row, 24).value
-            
+
             model = CarcassMarketPrice(
                 market_date=market_date,
                 nationwide_slaughter=nationwide_slaughter,
@@ -80,12 +79,12 @@ class DbInsert(object):
                 osaka_outside_price=osaka_outside_price,
                 osaka_head_count=osaka_head_count
             )
-            
+
             session.add(model)
             session.commit()
 
         print('summaryのDBインサートが完了しました。')
-        
+
         # 処理終了後にsummaryの値がある行を削除する
         for row in ws_summary.iter_rows(min_row=3):
             for cell in row:
@@ -93,9 +92,9 @@ class DbInsert(object):
 
         wb_summary.save('豚枝肉相場_Summary.xlsx')
         wb_summary.close()
-        
+
         # DBと切断
         session.close()
-        
+
         # エンジン破棄
         db_setting.dispose_db_engine(engine)
