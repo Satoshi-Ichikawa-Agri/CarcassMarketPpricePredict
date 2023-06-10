@@ -17,7 +17,7 @@ class CarcassMarketPrice(BASE):
 
     __tablename__ = 'carcass_market_price'
 
-    id = Column(Integer, primary_key=True, autoincrement=True) # 主キー
+    id = Column(Integer, primary_key=True, autoincrement=True)  # 主キー
     market_date = Column(Date, nullable=False)
     nationwide_slaughter = Column(Integer, nullable=True)
     zennoh_high_price = Column(Integer, nullable=True)

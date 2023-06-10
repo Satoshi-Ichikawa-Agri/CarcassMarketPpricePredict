@@ -64,7 +64,7 @@ class WebScraping(object):
         print('Excelを取得しました。')
 
         # return用で前月を取得する
-        previous_month_return = int(Const.DATE_YEAR_AND_MONTH) -1  # yyyymm-1
+        previous_month_return = int(Const.DATE_YEAR_AND_MONTH) - 1  # yyyymm-1
 
         return previous_month_return
 
