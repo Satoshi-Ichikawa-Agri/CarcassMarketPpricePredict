@@ -1,7 +1,8 @@
-from openpyxl import load_workbook
-
-from settings import DbSetting
+"""Sammary data Insert to Database"""
+from const import Const
 from models.models import CarcassMarketPrice, create_table
+from settings import DbSetting
+from views.excel_operation import ExcelOperation
 
 
 class DbInsert(object):
@@ -9,8 +10,12 @@ class DbInsert(object):
 
     def insert_carcass(self):
         """ carcassテーブルにsummaryをinsert """
-        wb_summary = load_workbook('豚枝肉相場_Summary.xlsx')
-        ws_summary = wb_summary['Sheet1']
+        excel = ExcelOperation()
+
+        wb_summary, ws_summary = excel.read_excel(
+            Const.get_summary_file(),
+            Const.SUMMARY_FILE_SHEET_NAME
+            )
 
         # DB接続
         db_setting = DbSetting()
@@ -20,38 +25,39 @@ class DbInsert(object):
 
         # Summaryからデータを取得する
         for row in range(3, ws_summary.max_row + 1):
-            market_date = ws_summary.cell(row, 1).value
-            if market_date is None or market_date == 'None':
+            market_date = excel.get_cell_value(ws_summary, row, 1)
+
+            if market_date is None or market_date == "None":
                 break
 
             # 全農値
-            nationwide_slaughter = ws_summary.cell(row, 2).value
-            zennoh_high_price = ws_summary.cell(row, 3).value
-            zennoh_middle_price = ws_summary.cell(row, 4).value
+            nationwide_slaughter = excel.get_cell_value(ws_summary, row, 2)
+            zennoh_high_price = excel.get_cell_value(ws_summary, row, 3)
+            zennoh_middle_price = excel.get_cell_value(ws_summary, row, 4)
             # Tokyo
-            tokyo_high_price = ws_summary.cell(row, 5).value
-            tokyo_middle_price = ws_summary.cell(row, 6).value
-            tokyo_ordinary_price = ws_summary.cell(row, 7).value
-            tokyo_outside_price = ws_summary.cell(row, 8).value
-            tokyo_head_count = ws_summary.cell(row, 9).value
+            tokyo_high_price = excel.get_cell_value(ws_summary, row, 5)
+            tokyo_middle_price = excel.get_cell_value(ws_summary, row, 6)
+            tokyo_ordinary_price = excel.get_cell_value(ws_summary, row, 7)
+            tokyo_outside_price = excel.get_cell_value(ws_summary, row, 8)
+            tokyo_head_count = excel.get_cell_value(ws_summary, row, 9)
             # Saitama
-            saitama_high_price = ws_summary.cell(row, 10).value
-            saitama_middle_price = ws_summary.cell(row, 11).value
-            saitama_ordinary_price = ws_summary.cell(row, 12).value
-            saitama_outside_price = ws_summary.cell(row, 13).value
-            saitama_head_count = ws_summary.cell(row, 14).value
+            saitama_high_price = excel.get_cell_value(ws_summary, row, 10)
+            saitama_middle_price = excel.get_cell_value(ws_summary, row, 11)
+            saitama_ordinary_price = excel.get_cell_value(ws_summary, row, 12)
+            saitama_outside_price = excel.get_cell_value(ws_summary, row, 13)
+            saitama_head_count = excel.get_cell_value(ws_summary, row, 14)
             # Yokohama
-            yokohama_high_price = ws_summary.cell(row, 15).value
-            yokohama_middle_price = ws_summary.cell(row, 16).value
-            yokohama_ordinary_price = ws_summary.cell(row, 17).value
-            yokohama_outside_price = ws_summary.cell(row, 18).value
-            yokohama_head_count = ws_summary.cell(row, 19).value
+            yokohama_high_price = excel.get_cell_value(ws_summary, row, 15)
+            yokohama_middle_price = excel.get_cell_value(ws_summary, row, 16)
+            yokohama_ordinary_price = excel.get_cell_value(ws_summary, row, 17)
+            yokohama_outside_price = excel.get_cell_value(ws_summary, row, 18)
+            yokohama_head_count = excel.get_cell_value(ws_summary, row, 19)
             # Osaka
-            osaka_high_price = ws_summary.cell(row, 20).value
-            osaka_middle_price = ws_summary.cell(row, 21).value
-            osaka_ordinary_price = ws_summary.cell(row, 22).value
-            osaka_outside_price = ws_summary.cell(row, 23).value
-            osaka_head_count = ws_summary.cell(row, 24).value
+            osaka_high_price = excel.get_cell_value(ws_summary, row, 20)
+            osaka_middle_price = excel.get_cell_value(ws_summary, row, 21)
+            osaka_ordinary_price = excel.get_cell_value(ws_summary, row, 22)
+            osaka_outside_price = excel.get_cell_value(ws_summary, row, 23)
+            osaka_head_count = excel.get_cell_value(ws_summary, row, 24)
 
             model = CarcassMarketPrice(
                 market_date=market_date,
@@ -83,14 +89,14 @@ class DbInsert(object):
             session.add(model)
             session.commit()
 
-        print('summaryのDBインサートが完了しました。')
+        print("summaryのDBインサートが完了しました。")
 
         # 処理終了後にsummaryの値がある行を削除する
         for row in ws_summary.iter_rows(min_row=3):
             for cell in row:
                 cell.value = None
 
-        wb_summary.save('豚枝肉相場_Summary.xlsx')
+        wb_summary.save(Const.get_summary_file())
         wb_summary.close()
 
         # DBと切断

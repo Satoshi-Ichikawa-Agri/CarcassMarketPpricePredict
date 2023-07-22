@@ -5,16 +5,17 @@ from sqlalchemy.orm import scoped_session, sessionmaker
 class DbSetting(object):
     """"""
 
-    DIALECT = 'mysql'
-    DRIVER = 'mysqldb'
-    USERNAME = 'devsaichikawa'
-    PASSWORD = 'Asagakita40813011'
-    HOST = 'localhost'
+    DIALECT = "mysql"
+    DRIVER = "mysqldb"
+    USERNAME = "devsaichikawa"
+    PASSWORD = "Asagakita40813011"
+    HOST = "localhost"
     PORT = 3306
-    DATABASE = 'dev_carcass_db'
-    CHARSET_TYPE = 'utf8'
+    DATABASE = "dev_carcass_db"
+    CHARSET_TYPE = "utf8"
 
-    DB_URL = f'{ DIALECT }+{ DRIVER }://{ USERNAME }:{ PASSWORD }@{ HOST }:{ PORT }/{ DATABASE }?charset={ CHARSET_TYPE }'
+    DB_URL = \
+        f"{ DIALECT }+{ DRIVER }://{ USERNAME }:{ PASSWORD }@{ HOST }:{ PORT }/{ DATABASE }?charset={ CHARSET_TYPE }"
 
     def get_db_engine(self):
         """"""

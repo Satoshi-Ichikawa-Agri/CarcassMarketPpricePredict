@@ -1,5 +1,4 @@
-"""
-全農ミートフーズのホームページから、豚肉相場一覧表_yyyymm.xlsxを自動で取得するプログラム。
+"""全農ミートフーズのホームページから、豚肉相場一覧表_yyyymm.xlsxを自動で取得するプログラム。
 取得するタイミングは月1とし、翌月になるタイミングで前月の集計データを取得する。
 """
 import sys
@@ -12,7 +11,7 @@ from views.from_excel_to_db import DbInsert
 
 def execute():
     """ 実行 """
-    arg_list = sys.argv  # 例：['main.py', '202303']
+    arg_list = sys.argv  # 例：["main.py", "202303"]
 
     # Scraping
     web_scraping = WebScraping(Const.check_target_date(arg_list))
@@ -28,6 +27,7 @@ def execute():
     db_insert.insert_carcass()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
+    print("----- 処理を開始しました。-----")
     execute()
-    print('全ての処理が終了しました。')
+    print("----- 全ての処理が終了しました。-----")

@@ -15,7 +15,7 @@ BASE = declarative_base()
 class CarcassMarketPrice(BASE):
     """ Carcass Market Price Model """
 
-    __tablename__ = 'carcass_market_price'
+    __tablename__ = "carcass_market_price"  # テーブル名
 
     id = Column(Integer, primary_key=True, autoincrement=True)  # 主キー
     market_date = Column(Date, nullable=False)
@@ -51,43 +51,44 @@ class CarcassMarketPrice(BASE):
 
 
 class CarcassMarketPriceExcel(object):
-    """ 元データ→Excel """
+    """ SummaryExcel Model """
 
     def __init__(self):
+        """Constructor"""
         self.index = Const.INT_UNSET  # for文のindex用
         # 全農値
-        self.market_date = Const.STRING_EMPTY
-        self.nationwide_slaughter = Const.STRING_EMPTY
-        self.zennoh_high_price = Const.STRING_EMPTY
-        self.zennoh_middle_price = Const.STRING_EMPTY
+        self.market_date = Const.STRING_UNSET
+        self.nationwide_slaughter = Const.STRING_UNSET
+        self.zennoh_high_price = Const.STRING_UNSET
+        self.zennoh_middle_price = Const.STRING_UNSET
         # Tokyo
-        self.tokyo_high_price = Const.STRING_EMPTY
-        self.tokyo_middle_price = Const.STRING_EMPTY
-        self.tokyo_ordinary_price = Const.STRING_EMPTY
-        self.tokyo_outside_price = Const.STRING_EMPTY
-        self.tokyo_head_count = Const.STRING_EMPTY
+        self.tokyo_high_price = Const.STRING_UNSET
+        self.tokyo_middle_price = Const.STRING_UNSET
+        self.tokyo_ordinary_price = Const.STRING_UNSET
+        self.tokyo_outside_price = Const.STRING_UNSET
+        self.tokyo_head_count = Const.STRING_UNSET
         # Saitama
-        self.saitama_high_price = Const.STRING_EMPTY
-        self.saitama_middle_price = Const.STRING_EMPTY
-        self.saitama_ordinary_price = Const.STRING_EMPTY
-        self.saitama_outside_price = Const.STRING_EMPTY
-        self.saitama_head_count = Const.STRING_EMPTY
+        self.saitama_high_price = Const.STRING_UNSET
+        self.saitama_middle_price = Const.STRING_UNSET
+        self.saitama_ordinary_price = Const.STRING_UNSET
+        self.saitama_outside_price = Const.STRING_UNSET
+        self.saitama_head_count = Const.STRING_UNSET
         # Yokohama
-        self.yokohama_high_price = Const.STRING_EMPTY
-        self.yokohama_middle_price = Const.STRING_EMPTY
-        self.yokohama_ordinary_price = Const.STRING_EMPTY
-        self.yokohama_outside_price = Const.STRING_EMPTY
-        self.yokohama_head_count = Const.STRING_EMPTY
+        self.yokohama_high_price = Const.STRING_UNSET
+        self.yokohama_middle_price = Const.STRING_UNSET
+        self.yokohama_ordinary_price = Const.STRING_UNSET
+        self.yokohama_outside_price = Const.STRING_UNSET
+        self.yokohama_head_count = Const.STRING_UNSET
         # Osaka
-        self.osaka_high_price = Const.STRING_EMPTY
-        self.osaka_middle_price = Const.STRING_EMPTY
-        self.osaka_ordinary_price = Const.STRING_EMPTY
-        self.osaka_outside_price = Const.STRING_EMPTY
-        self.osaka_head_count = Const.STRING_EMPTY
+        self.osaka_high_price = Const.STRING_UNSET
+        self.osaka_middle_price = Const.STRING_UNSET
+        self.osaka_ordinary_price = Const.STRING_UNSET
+        self.osaka_outside_price = Const.STRING_UNSET
+        self.osaka_head_count = Const.STRING_UNSET
 
 
 def create_table():
-    """"""
+    """Create Table"""
     db_setting = DbSetting()
     engine = db_setting.get_db_engine()
     BASE.metadata.create_all(engine)
