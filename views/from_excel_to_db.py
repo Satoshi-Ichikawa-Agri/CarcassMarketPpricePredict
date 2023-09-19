@@ -27,7 +27,7 @@ class DbInsert(object):
         for row in range(3, ws_summary.max_row + 1):
             market_date = excel.get_cell_value(ws_summary, row, 1)
 
-            if market_date is None or market_date == "None":
+            if Const.is_null_or_empty(market_date):
                 break
 
             # 全農値
@@ -87,7 +87,7 @@ class DbInsert(object):
             )
 
             session.add(model)
-            session.commit()
+        session.commit()
 
         print("summaryのDBインサートが完了しました。")
 
