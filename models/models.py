@@ -1,10 +1,9 @@
-""" model """
 from datetime import datetime
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.schema import Column
 from sqlalchemy.types import Integer, DateTime, Date
 
-from const import Const
+from CarcassMarketPpricePredict.constant import Const
 from settings import DbSetting
 
 
@@ -12,9 +11,15 @@ from settings import DbSetting
 BASE = declarative_base()
 
 
-class CarcassMarketPrice(BASE):
-    """ Carcass Market Price Model """
+def create_table():
+    db_setting = DbSetting()
+    engine = db_setting.get_db_engine()
+    BASE.metadata.create_all(engine)
 
+    return engine
+
+
+class CarcassMarketPrice(BASE):
     __tablename__ = "carcass_market_price"  # テーブル名
 
     id = Column(Integer, primary_key=True, autoincrement=True)  # 主キー
@@ -51,10 +56,9 @@ class CarcassMarketPrice(BASE):
 
 
 class CarcassMarketPriceExcel(object):
-    """ SummaryExcel Model """
+    """SummaryExcel Model"""
 
     def __init__(self):
-        """Constructor"""
         self.index = Const.INT_UNSET  # for文のindex用
         # 全農値
         self.market_date = Const.STRING_UNSET
@@ -85,12 +89,3 @@ class CarcassMarketPriceExcel(object):
         self.osaka_ordinary_price = Const.STRING_UNSET
         self.osaka_outside_price = Const.STRING_UNSET
         self.osaka_head_count = Const.STRING_UNSET
-
-
-def create_table():
-    """Create Table"""
-    db_setting = DbSetting()
-    engine = db_setting.get_db_engine()
-    BASE.metadata.create_all(engine)
-
-    return engine

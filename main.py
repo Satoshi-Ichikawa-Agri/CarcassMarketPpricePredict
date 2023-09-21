@@ -1,16 +1,14 @@
-"""全農ミートフーズのホームページから、豚肉相場一覧表_yyyymm.xlsxを自動で取得するプログラム。
-取得するタイミングは月1とし、翌月になるタイミングで前月の集計データを取得する。
-"""
 import sys
 
-from const import Const
+from CarcassMarketPpricePredict.constant import Const
 from views.web_scraping import WebScraping
 from views.data_cleansing import DataCleansing
 from views.from_excel_to_db import DbInsert
 
 
 def execute():
-    """ 実行 """
+    """実行"""
+
     arg_list = sys.argv  # 例：["main.py", "202303"]
 
     # Scraping

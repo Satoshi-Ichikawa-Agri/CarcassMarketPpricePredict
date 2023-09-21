@@ -6,7 +6,6 @@ from datetime import date, datetime
 
 
 class Const(object):
-
     INT_UNSET = -1
     STRING_UNSET = ""
 
@@ -14,7 +13,9 @@ class Const(object):
     SUMMARY_FILE_SHEET_NAME = "summary"
 
     WINDOWS_DOWNLOAS_DIR = "C:\\Users\\daiko\\Downloads"
-    PROJECT_STORE_PATH = "C:\\Users\\daiko\\Data_Store\\carcass_market_price_predict_store"
+    PROJECT_STORE_PATH = (
+        "C:\\Users\\daiko\\Data_Store\\carcass_market_price_predict_store"
+    )
 
     ZENNO_URL = "https://www.jazmf.co.jp/market/list.html"
 
@@ -28,7 +29,13 @@ class Const(object):
 
     @classmethod
     def get_home_directory(cls) -> Path:
-        """Get HOME directory"""
+        """Get HOME directory
+
+        Args:
+            value (str): Noneもしくは空であるかを確認する値
+        Returns:
+            bool: (例: Noneや空の場合はTrue、値が存在すればFalse)
+        """
         return Path.home()
 
     @classmethod
@@ -58,7 +65,9 @@ class Const(object):
     @classmethod
     def get_project_store_output_directory(cls) -> Path:
         """Get output directory"""
-        output_path = cls.get_project_store_directory().joinpath("output_samary")
+        output_path = cls.get_project_store_directory().joinpath(
+            "output_samary"
+        )
 
         return output_path
 
@@ -73,7 +82,9 @@ class Const(object):
     @classmethod
     def get_summary_file(cls) -> str:
         """get summary file"""
-        sammary_file = cls.get_current_directory().joinpath(cls.SUMMARY_FILE_NAME)
+        sammary_file = cls.get_current_directory().joinpath(
+            cls.SUMMARY_FILE_NAME
+        )
 
         return str(sammary_file)
 
@@ -81,13 +92,14 @@ class Const(object):
     def get_downloaded_file(cls, file_date) -> str:
         """get downloaded file"""
         download_file = cls.get_project_store_download_directory().joinpath(
-            f"豚肉相場一覧表_{ file_date }.xlsx")
+            f"豚肉相場一覧表_{ file_date }.xlsx"
+        )
 
         return str(download_file)
 
     @classmethod
     def check_target_date(cls, arg_list):
-        """ Consoleの引数からtarget_dateを取得する
+        """Consoleの引数からtarget_dateを取得する
         python main.py 202303
         """
         if len(arg_list) == 1:
@@ -111,7 +123,7 @@ class Const(object):
 
     @classmethod
     def date_replace(cls, value: str):
-        """ 日付のReplace
+        """日付のReplace
         Parameters:
             value: ダウンロードA列の「日」の値(例01日,02日)
         """
@@ -134,7 +146,7 @@ class Const(object):
             start: 開始位置
             end: 終了位置
         """
-        return value[:start] + value[end + 1:]
+        return value[:start] + value[end + 1 :]
 
     @classmethod
     def time_keeper(cls, seconds: int):

@@ -1,21 +1,18 @@
-"""Sammary data Insert to Database"""
-from const import Const
+from CarcassMarketPpricePredict.constant import Const
 from models.models import CarcassMarketPrice, create_table
 from settings import DbSetting
 from views.excel_operation import ExcelOperation
 
 
 class DbInsert(object):
-    """"""
-
     def insert_carcass(self):
-        """ carcassテーブルにsummaryをinsert """
+        """carcassテーブルにsummaryをinsert"""
+
         excel = ExcelOperation()
 
         wb_summary, ws_summary = excel.read_excel(
-            Const.get_summary_file(),
-            Const.SUMMARY_FILE_SHEET_NAME
-            )
+            Const.get_summary_file(), Const.SUMMARY_FILE_SHEET_NAME
+        )
 
         # DB接続
         db_setting = DbSetting()
@@ -83,7 +80,7 @@ class DbInsert(object):
                 osaka_middle_price=osaka_middle_price,
                 osaka_ordinary_price=osaka_ordinary_price,
                 osaka_outside_price=osaka_outside_price,
-                osaka_head_count=osaka_head_count
+                osaka_head_count=osaka_head_count,
             )
 
             session.add(model)
